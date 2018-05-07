@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfyj.zlk.football.data.dao.LeagueMapper" >
+  <resultMap id="BaseResultMap" type="com.cfyj.zlk.football.entity.League" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="short_name_cn" property="shortNameCn" jdbcType="VARCHAR" />
+    <result column="full_name_cn" property="fullNameCn" jdbcType="VARCHAR" />
+    <result column="short_name_en" property="shortNameEn" jdbcType="VARCHAR" />
+    <result column="full_name_en" property="fullNameEn" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="curseason" property="curseason" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="country_id" property="countryId" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="BIT" />
+    <result column="available" property="available" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="hot" property="hot" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, short_name_cn, full_name_cn, short_name_en, full_name_en, color, pic, curseason, 
+    model, type, country_id, state, available, create_time, update_time, hot
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from fb_league
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  	<!-- 按照联赛中文名查询 -->
+	<select id="findByShortNameCn" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from fb_league
+    where short_name_cn = #{shortNameCn} limit 1
+  </select>	
+  
+</mapper>

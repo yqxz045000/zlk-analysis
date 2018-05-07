@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfyj.zlk.football.analysis.example.dao.ExampleDao">
+
+	<sql id="Base_Column_List">
+		id,qtid,companyId,oldOdds,newOdds,createTime,updateTime,type
+	</sql>
+
+	<sql id="All_Column_List">
+		id,qtid,companyId,oldOdds,newOdds,allOdds,createTime,updateTime,type
+	</sql>
+
+	<!-- mysql默认接受sql的大小是1048576(1M) -->
+	<insert id="insertbatch" parameterType="java.util.List">
+		insert into
+		fb_ouyaodds2(qtid,companyId,oldOdds,newOdds,allOdds,type,createTime,updateTime)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.qtid},#{item.companyId},#{item.oldOdds},#{item.newOdds},#{item.allOdds},#{item.type},#{item.createTime},#{item.updateTime})
+		</foreach>
+	</insert>
+
+
+
+	<!-- <insert id="insert" parameterType="com.match.zlk.football.entity.Odds"> 
+		insert into fb_ouyaodds(qtid,companyId,oldOdds,newOdds,allOdds,type,createTime) 
+		values(#{qtid},#{companyId},#{oldOdds},#{newOdds},#{allOdds},#{type},#{createTime}) 
+		</insert> -->
+
+
+
+
+
+
+</mapper>

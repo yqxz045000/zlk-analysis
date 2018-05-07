@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfyj.zlk.football.data.dao.MatchMapper">
+	<resultMap id="BaseResultMap" type="com.cfyj.zlk.football.entity.Match">
+		<id column="qt_id" property="qtId" jdbcType="BIGINT" />
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="season_id" property="seasonId" jdbcType="BIGINT" />
+		<!-- <result column="qualify_id" property="qualifyId" jdbcType="BIGINT" /> -->
+		<result column="league_id" property="leagueId" jdbcType="BIGINT" />
+		<result column="league_name" property="leagueName" jdbcType="VARCHAR" />
+		<result column="home_team_id" property="hid" jdbcType="BIGINT" />
+		<result column="home_team_name" property="hn"
+			jdbcType="VARCHAR" />
+		<result column="guest_team_id" property="gid" jdbcType="BIGINT" />
+		<result column="guest_team_name" property="gn"
+			jdbcType="VARCHAR" />
+		
+		<result column="full_score" property="fullScore" jdbcType="VARCHAR" />
+		<result column="half_score" property="halfScore" jdbcType="VARCHAR" />
+		<result column="match_type" property="matchType" jdbcType="INTEGER" />
+		<result column="home_rank" property="homeRank" jdbcType="VARCHAR" />
+		<result column="guest_rank" property="guestRank" jdbcType="VARCHAR" />
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+		<result column="match_time" property="matchTime" jdbcType="TIMESTAMP" />	
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		id, qt_id, season_id, league_id, league_name, home_team_id,
+		home_team_name,
+		guest_team_id, guest_team_name , full_score, half_score, match_type,
+		home_rank,
+		guest_rank, group_name, match_time, create_time, update_time
+	</sql>
+
+
+
+
+	<select id="findById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fb_matches where id = #{id}
+	</select>
+
+
+
+
+	<select id="findByQtid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from fb_matches
+		where qt_id = #{qtId,jdbcType=BIGINT}
+	</select>
+
+	<insert id="insert" parameterType="com.cfyj.zlk.football.entity.Match"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into fb_matches (id, qt_id, season_id,
+		 league_id, league_name,
+		home_team_id, home_team_name, guest_team_id,
+		guest_team_name, full_score,
+		half_score, match_type, home_rank,
+		guest_rank, group_name,
+		match_time, create_time,
+		update_time)
+		values (#{id,jdbcType=BIGINT}, #{qtId,jdbcType=BIGINT},
+		#{seasonId,jdbcType=BIGINT},
+		#{leagueId,jdbcType=BIGINT}, #{leagueName,jdbcType=VARCHAR},
+		#{hid,jdbcType=BIGINT}, #{hn,jdbcType=VARCHAR},
+		#{gid,jdbcType=BIGINT},
+		#{gn,jdbcType=VARCHAR}, #{fullScore,jdbcType=VARCHAR},
+		#{halfScore,jdbcType=VARCHAR}, #{matchType,jdbcType=INTEGER},
+		#{homeRank,jdbcType=VARCHAR},
+		#{guestRank,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR},
+		#{matchTime,jdbcType=TIMESTAMP},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<update id="update" parameterType="com.cfyj.zlk.football.entity.Match">
+		update fb_matches
+		set qt_id = #{qtId,jdbcType=BIGINT},
+		season_id = #{seasonId,jdbcType=BIGINT},	
+		league_id = #{leagueId,jdbcType=BIGINT},
+		league_name = #{leagueName,jdbcType=VARCHAR},
+		home_team_id = #{hid,jdbcType=BIGINT},
+		home_team_name = #{hn,jdbcType=VARCHAR},
+		guest_team_id = #{gid,jdbcType=BIGINT},
+		guest_team_name = #{gn,jdbcType=VARCHAR},
+		match_type = #{matchType,jdbcType=INTEGER},
+		<if test="homeRank != null">
+			home_rank = #{homeRank,jdbcType=VARCHAR},
+		</if>
+		<if test="guestRank != null">
+			guest_rank = #{guestRank,jdbcType=VARCHAR},
+		</if>
+		<!-- home_rank = #{homeRank,jdbcType=VARCHAR}, guest_rank = #{guestRank,jdbcType=VARCHAR}, -->
+		group_name = #{groupName,jdbcType=VARCHAR},
+		
+		match_time = #{matchTime,jdbcType=TIMESTAMP},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP}
+
+		where qt_id = #{qtId,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectHomeOrGuestNull" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from fb_matches 
+		where match_time >now() and league_id is not null and (home_team_id is null or guest_team_id is null) order by qt_id desc
+	</select>
+		
+
+
+	
+	
+	<select id="findMatchingFailMatch" resultMap="BaseResultMap">
+		select id,qt_id,league_id,league_name,home_team_id,home_team_name,guest_team_id,guest_team_name
+		 from fb_matches m where m.match_time > now() and m.league_id is not NULL and (m.home_team_id is null or m.guest_team_name is null)
+	</select>
+	
+	<update id="updateTeamId" parameterType="com.cfyj.zlk.football.entity.Match">
+		update	fb_matches
+		<set>
+			<if test="homeTeamId!=null">
+				  home_team_id = #{homeTeamId},
+			</if>
+			<if test="guestTeamId!=null">
+				 guest_team_id  = #{guestTeamId},
+			</if>		
+		</set>
+		where qt_id = #{qtId}
+	</update>
+	
+	<update id="updateScoreAndstate" parameterType="com.cfyj.zlk.football.entity.Match">
+		update fb_matches 
+		<set>
+			<if test="fullScore!=null and fullScore!=''">
+				full_score = #{fullScore},
+			</if>
+			<if test="halfScore!=null and halfScore!=''">
+				half_score = #{halfScore},
+			</if>
+				match_type = #{matchType}
+		</set> 
+		 where qt_id = #{qtId}
+	</update>
+	
+	<select id="count" resultType="java.lang.Integer">
+		select count(1) from fb_matches  
+	</select>
+	
+	<select id="findByLimit" resultMap="BaseResultMap">
+		select qt_id,match_time from fb_matches  order by match_time asc limit #{begin} , #{end}
+	</select>
+
+</mapper>
+
+

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfyj.zlk.football.data.dao.TeamMapper">
+	<resultMap id="BaseResultMap" type="com.cfyj.zlk.football.entity.Team">
+		<id column="qt_id" property="qtId" jdbcType="BIGINT" />
+		<result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+		<result column="short_name_cn" property="shortNameCn" jdbcType="VARCHAR" />
+		<result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+		<result column="alias" property="alias" jdbcType="VARCHAR" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="stadium" property="stadium" jdbcType="VARCHAR" />
+		<result column="capacity" property="capacity" jdbcType="VARCHAR" />
+		<result column="build_date" property="buildDate" jdbcType="VARCHAR" />
+		<result column="website" property="website" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="is_country" property="isCountry" jdbcType="BIT" />
+		<result column="coach" property="coach" jdbcType="VARCHAR" />
+		<result column="last_update_time" property="lastUpdateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="is_update" property="isUpdate" jdbcType="BIT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.cfyj.zlk.football.entity.Team"
+		extends="BaseResultMap">
+		<result column="resume" property="resume" jdbcType="LONGVARCHAR" />
+		<result column="rearguard" property="rearguard" jdbcType="LONGVARCHAR" />
+		<result column="vanguard" property="vanguard" jdbcType="LONGVARCHAR" />
+		<result column="goalkeeper" property="goalkeeper" jdbcType="LONGVARCHAR" />
+		<result column="midfielder" property="midfielder" jdbcType="LONGVARCHAR" />
+		<result column="lineup_detail" property="lineupDetail"
+			jdbcType="LONGVARCHAR" />
+		<result column="team_character" property="teamCharacter"
+			jdbcType="LONGVARCHAR" />
+		<result column="team_honor" property="teamHonor" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="and">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		qt_id, name_cn, short_name_cn, name_en, alias, pic, city, stadium, capacity,
+		build_date,
+		website, address, is_country, coach, last_update_time, is_update, create_time,
+		update_time
+	</sql>
+	<sql id="Blob_Column_List">
+		resume, rearguard, vanguard, goalkeeper,
+		midfielder,lineup_detail,team_character,team_honor
+	</sql>
+	<select id="selectByQtId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fb_team
+		where qt_id = #{qt_id,jdbcType=BIGINT} limit 1
+	</select>
+	<select id="findByCnName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fb_team
+		where name_cn = #{teamName,jdbcType=VARCHAR} limit 1
+	</select>
+
+
+	<insert id="insertSelective" parameterType="com.cfyj.zlk.football.entity.Team">
+		insert into fb_team
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="qtId != null">
+				qt_id,
+			</if>
+			<if test="nameCn != null">
+				name_cn,
+			</if>
+			<if test="nameEn != null">
+				name_en,
+			</if>
+			<if test="shortNameCn != null">
+				short_name_cn,
+			</if>
+			<if test="alias != null">
+				alias,
+			</if>
+			<if test="website != null">
+				website,
+			</if>
+			<if test="pic != null">
+				pic,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="lastUpdateTime != null">
+				last_update_time,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="isUpdate != null">
+				is_update,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="qtId != null">
+				#{qtId,jdbcType=BIGINT},
+			</if>
+			<if test="nameCn != null">
+				#{nameCn,jdbcType=VARCHAR},
+			</if>
+			<if test="nameEn != null">
+				#{nameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="shortNameCn != null">
+				#{shortNameCn,jdbcType=VARCHAR},
+			</if>
+			<if test="alias != null">
+				#{alias,jdbcType=VARCHAR},
+			</if>
+			<if test="website != null">
+				#{website,jdbcType=VARCHAR},
+			</if>
+			<if test="pic != null">
+				#{pic,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateTime != null">
+				#{lastUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isUpdate != null">
+				#{isUpdate,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="com.cfyj.zlk.football.entity.Team">
+		update fb_team
+		<set>
+			<if test="nameCn != null">
+				name_cn = #{nameCn,jdbcType=VARCHAR},
+			</if>
+			<if test="nameEn != null">
+				name_en = #{nameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="shortNameCn != null">
+				short_name_cn = #{shortNameCn,jdbcType=VARCHAR},
+			</if>
+			<if test="alias != null">
+				alias = #{alias,jdbcType=VARCHAR},
+			</if>
+			<if test="website != null">
+				website = #{website,jdbcType=VARCHAR},
+			</if>
+			<if test="pic != null">
+				pic = #{pic,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateTime != null">
+				last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isUpdate != null">
+				is_update = #{isUpdate,jdbcType=BIT},
+			</if>
+		</set>
+		where  qt_id = #{qtId,jdbcType=BIGINT}
+	</update>
+
+</mapper>
