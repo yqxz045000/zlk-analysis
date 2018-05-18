@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfyj.zlk.football.data.dao.StageMapper">
+	<resultMap id="BaseResultMap" type="com.cfyj.zlk.football.entity.Stage">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="is_current" property="isCurrent" jdbcType="BIT" />
+		<result column="available" property="available" jdbcType="BIT" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, type, is_current as isCurrent, available, status, create_time,
+		update_time
+	</sql>
+			
+	<insert id="insert" parameterType="com.cfyj.zlk.football.entity.Stage"  useGeneratedKeys="true"  keyProperty="id">
+    insert into fb_stage (id, name, type, 
+      is_current, available, status, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{isCurrent,jdbcType=BIT}, #{available,jdbcType=BIT}, #{status,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+	<update id="updateDefineCurrentTrue">
+		<!-- update fb_stage set is_current=true,update_time=now() 
+		where id in (select t.id from( SELECT s.id from fb_stage s INNER JOIN fb_stage_matches m on s.id=m.stage_id 
+			where m.match_time>#{time} and s.available=1 and s.type=#{type} GROUP BY s.`name` HAVING COUNT(s.`name`)>0)t) -->
+			 update fb_stage set is_current=true,update_time=now() 
+		where id in (select t.id from( SELECT s.id,s.`name`  from fb_stage s INNER JOIN fb_stage_matches m on s.id=m.stage_id 
+			where m.match_time &gt; #{compareTime} and s.available=1 and s.type=#{jcType} GROUP BY s.`name` HAVING COUNT(s.`name`)>0)t) ;
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.cfyj.zlk.football.entity.Stage" >
+	    update fb_stage
+	    set name = #{name,jdbcType=VARCHAR},
+	      type = #{type,jdbcType=INTEGER},
+	      is_current = #{isCurrent,jdbcType=BIT},
+	      available = #{available,jdbcType=BIT},
+	      status = #{status,jdbcType=BIT},
+	      create_time = #{createTime,jdbcType=TIMESTAMP},
+	      update_time = #{updateTime,jdbcType=TIMESTAMP}
+	    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+	<select id="selectByNameAndType" resultMap="BaseResultMap"   >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from fb_stage
+	    where name = #{name} and type=#{type}
+  </select>
+  
+  	<select id="getStageByType" resultMap="BaseResultMap">
+		select  
+		<include refid="Base_Column_List" />
+    	from fb_stage
+    	where type=#{stageType,jdbcType=INTEGER} and is_current=#{isCurrent,jdbcType=BIT}
+	    order by name desc
+	</select>
+	
+	<select id="getStageByTypeLimit" resultMap="BaseResultMap">
+		select  
+		<include refid="Base_Column_List" />
+    	from fb_stage
+    	where type=#{stageType,jdbcType=INTEGER} and is_current=#{isCurrent,jdbcType=BIT}
+	    order by name desc limit ${limit}
+	</select>
+			
+</mapper>

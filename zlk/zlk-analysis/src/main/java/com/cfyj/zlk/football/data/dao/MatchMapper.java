@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
+import com.cfyj.zlk.football.domain.OddsMatchVO;
 import com.cfyj.zlk.football.entity.Match;
 
 @Mapper
@@ -21,4 +23,10 @@ public interface MatchMapper {
 	int count();
 
 	List<Match> findByLimit(@Param("begin")int begin, @Param("end") int end);
+	
+	
+	@Select("select qt_id from fb_matches where id = #{id}")
+	Long findQtidById(@Param("id")Long id);
+
+	List<OddsMatchVO> findCurrentSaleMatch();
 }

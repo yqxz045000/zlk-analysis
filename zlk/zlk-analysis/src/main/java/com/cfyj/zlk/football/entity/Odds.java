@@ -2,8 +2,6 @@ package com.cfyj.zlk.football.entity;
 
 import java.sql.Timestamp;
 
-import lombok.Data;
-
 
 public class Odds {
 	 //281-韦德  82-立博  115-威廉希尔

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfyj.zlk.football.data.dao.StageMatchMapper" >
+  <resultMap id="BaseResultMap" type="com.cfyj.zlk.football.entity.StageMatch" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="available" property="available" jdbcType="BIT" />
+    <result column="mname" property="mname" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="gn" property="gn" jdbcType="VARCHAR" />
+    <result column="hn" property="hn" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="jc_name" property="jcName" jdbcType="VARCHAR" />
+    <result column="match_time" property="matchTime" jdbcType="TIMESTAMP" />
+    <result column="rq" property="rq" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="match_id" property="matchId" jdbcType="BIGINT" />
+    <result column="stage_id" property="stageId" jdbcType="BIGINT" />
+    <result column="swap_team" property="swapTeam" jdbcType="BIT" />
+    <result column="mid" property="mid" jdbcType="INTEGER" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="rqspf" property="rqspf" jdbcType="VARCHAR" />
+    <result column="spf" property="spf" jdbcType="VARCHAR" />
+    <result column="update_status" property="updateStatus" jdbcType="INTEGER" />
+    
+    <result column="qt_id" property="qtid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mname, gn, hn, item_id, jc_name, 
+    match_time, rq, sort, match_id, stage_id,mid,rqspf,spf,swap_team
+  </sql>
+
+  <select id="findBySortAndStageId" resultType="com.cfyj.zlk.football.entity.StageMatch">
+    select 
+    m.id,m.mname, m.gn, m.hn, m.item_id as itemId, m.jc_name as jcName,m.match_time as matchTime,m.sort as sort,m.match_id as matchId,
+    m.stage_id as stageId,m.mid as mid,m.spf,m.swap_team as swapTeam
+    from fb_stage_matches m where m.stage_id=#{stageId} and m.sort=#{sort} 
+  </select>
+  
+	<select id="findStageMatchForMatching" resultType="com.cfyj.zlk.football.entity.StageMatch">
+	 select 
+	    m.id,m.mname, m.gn, m.hn, m.item_id as itemId, m.jc_name as jcName,m.match_time as matchTime,m.sort as sort,m.match_id as matchId,
+	    m.stage_id as stageId,m.mid as mid,m.spf,matches.qt_id as qtid,m.swap_team as swapTeam
+	    from fb_stage_matches m,fb_matches matches where m.sort=#{sort}  and m.stage_id=#{stageId} and matches.id = m.match_id
+	</select>
+  
+  
+<!-- 旧的匹配  <select id="matchingStageMatch" resultType="java.lang.Long" >
+  	SELECT m.id,t1.alias hn,t2.alias gn from fb_matches m INNER JOIN fb_team t1 on m.home_team_id=t1.qt_id INNER JOIN fb_team t2 on t2.qt_id=m.guest_team_id WHERE (FIND_IN_SET(#{homeName},t1.alias) and FIND_IN_SET(#{guestName},t2.alias) ) and #{matchTime}  BETWEEN DATE_FORMAT(SUBDATE(m.match_time,INTERVAL 7 hour), '%Y-%m-%d %H:%i:%s')  
+	AND DATE_FORMAT(ADDDATE(m.match_time,INTERVAL 7 hour), '%Y-%m-%d %H:%i:%s') order by m.create_time desc
+  </select> -->
+   	<select id="findHistory" resultMap="BaseResultMap">  
+		select 	 sm.id, sm.mname, sm.gn, sm.hn, sm.item_id, sm.jc_name, 
+   				 sm.match_time, sm.rq, sm.sort, sm.match_id, sm.stage_id,sm.mid,sm.rqspf,sm.spf,sm.swap_team,m.qt_id
+     	from fb_stage_matches sm left join fb_matches m on m.id = sm.match_id where 
+		sm.stage_id in (select t.* from (select s.id from fb_stage s  where s.type = #{type} and s.is_current = 0 order by s.name desc  limit #{qc}) t)		
+		 order by sm.match_time desc	
+	</select>
+	
+  <select id="matchingStageMatch" resultType="java.lang.Long" >
+  	SELECT m.id,t1.alias hn,t2.alias gn from fb_matches m INNER JOIN fb_team t1 on m.home_team_id=t1.qt_id INNER JOIN fb_team t2 on t2.qt_id=m.guest_team_id 
+  	WHERE DATE_FORMAT(m.match_time,'%Y-%m-%d') = #{matchTime}  and  (FIND_IN_SET(#{homeName},t1.alias) and FIND_IN_SET(#{guestName},t2.alias) ) 
+	order by m.qt_id desc limit 1;
+  </select>
+  
+  <select id="matchingStageMatch3" resultType="java.lang.Long">
+  	select id from fb_matches 
+  	<where>
+  		<if test="hTeamId!=null">
+  		and  home_team_id = #{hTeamId}
+  		</if>
+  		<if test="gTeamId!=null">
+  		and  guest_team_id = #{gTeamId}
+  		</if>
+  		<if test="matchTime!=null">
+  		and DATE_FORMAT(match_time,'%Y-%m-%d') = #{matchTime}
+  		</if>
+  	</where>
+  	order by qt_id desc
+  </select>
+   
+   <select id="matchingStageMatch5" resultType="java.lang.Long" >
+  	SELECT m.id,t1.alias hn,t2.alias gn from fb_matches m INNER JOIN fb_team t1 on m.home_team_id=t1.qt_id INNER JOIN fb_team t2 on t2.qt_id=m.guest_team_id 
+  	WHERE m.match_time &gt;=  str_to_date(#{beginTime},'%Y-%m-%d %h:%i:%s') and m.match_time &lt;= str_to_date(#{endTime},'%Y-%m-%d %h:%i:%s') and  (FIND_IN_SET(#{homeName},t1.alias) and FIND_IN_SET(#{guestName},t2.alias) ) 
+	order by m.qt_id desc limit 1;
+  </select>
+   
+   <select id="matchingStageMatch6" resultType="java.lang.Long">
+  	select id from fb_matches 
+  	<where>
+  		<if test="hTeamId!=null">
+  		and  home_team_id = #{hTeamId}
+  		</if>
+  		<if test="gTeamId!=null">
+  		and  guest_team_id = #{gTeamId}
+  		</if>
+  		<if test="beginTime!=null and endTime!=null">
+  		and  match_time &gt;=  str_to_date(#{beginTime},'%Y-%m-%d %h:%i:%s') and match_time &lt;= str_to_date(#{endTime},'%Y-%m-%d %h:%i:%s')
+  		</if>
+  	</where>
+  	order by qt_id desc
+  </select>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <select id="findByQtid" resultMap="BaseResultMap">
+   		select sm.id, sm.mname, sm.gn, sm.hn, sm.item_id, sm.jc_name, sm.match_time, sm.sort, sm.match_id, sm.stage_id,sm.mid,sm.swap_team
+     from fb_stage_matches sm , fb_matches m where m.qt_id = #{qtId}  and sm.match_id = m.id limit 1;
+   </select>
+   
+   <select id="findByMatchId" resultMap="BaseResultMap">
+   		select sm.id, sm.mname, sm.gn, sm.hn, sm.item_id, sm.jc_name, sm.match_time, sm.sort, sm.match_id, sm.stage_id,sm.mid,sm.swap_team
+     from fb_stage_matches sm where sm.match_id = #{matchId} limit 1;
+   </select>
+   
+   <select id="findMatchingFailMatch" resultMap="BaseResultMap"> 
+   <!-- select sm.id,sm.gn,sm.hn,sm.item_id,sm.stage_id,sm.mname,sm.match_time,sm.swap_team from fb_stage_matches sm where  sm.match_time>now() and sm.match_id is null   -->
+   		select sm.id,sm.gn,sm.hn,sm.item_id,sm.stage_id,sm.mname,sm.match_time,sm.swap_team from fb_stage_matches sm where  sm.match_id is null order by sm.match_time  desc
+   </select>
+   
+	<update id="updateMatchId" parameterType="com.cfyj.zlk.football.entity.StageMatch">
+		update	fb_stage_matches 
+		<set>
+			<if test="matchId!=null">
+			match_id = #{matchId},
+			</if>
+			<if test="swapTeam!=null">
+			swap_team = #{swapTeam},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <update id="updateByPrimaryKey" parameterType="com.cfyj.zlk.football.entity.StageMatch" >
+    update fb_stage_matches
+    set available = #{available,jdbcType=BIT},
+      mname = #{mname,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=BIT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      gn = #{gn,jdbcType=VARCHAR},
+      hn = #{hn,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=BIGINT},
+      jc_name = #{jcName,jdbcType=VARCHAR},
+      match_time = #{matchTime,jdbcType=TIMESTAMP},
+      rq = #{rq,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      match_id = #{matchId,jdbcType=BIGINT},
+      stage_id = #{stageId,jdbcType=BIGINT},
+      swap_team = #{swapTeam,jdbcType=BIT},
+      mid = #{mid,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=VARCHAR},
+      rqspf = #{rqspf,jdbcType=VARCHAR},
+      spf = #{spf,jdbcType=VARCHAR},
+      update_status = #{updateStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateStageMatchByInner"  parameterType="com.cfyj.zlk.football.entity.StageMatch">
+  		update fb_stage_matches 
+  		<set>
+  			<if test="matchId!=null">
+  			match_id = #{matchId,jdbcType=BIGINT},
+  			</if>
+  			<if test="sort!=null">
+  			 sort = #{sort,jdbcType=INTEGER},
+  			</if>
+  			<if test="itemId!=null">
+  			item_id = #{itemId,jdbcType=BIGINT},
+  			</if>
+  			<if test="mname!=null">
+  			mname = #{mname,jdbcType=VARCHAR},
+  			</if>
+  			<if test="rq!=null">
+  			rq = #{rq,jdbcType=INTEGER},
+  			</if>
+  			<if test="updateTime!=null">
+  			 update_time = #{updateTime,jdbcType=TIMESTAMP},
+  			</if>
+  			<if test="hn!=null">
+  			 hn = #{hn,jdbcType=VARCHAR},
+  			</if>
+  			<if test="gn!=null">
+  			 gn = #{gn,jdbcType=VARCHAR},
+  			</if>
+  			<if test="swapTeam!=null">
+  				swap_team = #{swapTeam},
+  			</if>
+  			<if test="matchTime!=null">
+  				match_time = #{matchTime},
+  			</if>
+  		</set>
+         where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+   <insert id="insert" parameterType="com.cfyj.zlk.football.entity.StageMatch" >
+    insert into fb_stage_matches (id, available, mname, 
+      create_time, status, update_time, 
+      gn, hn, item_id, jc_name, 
+      match_time, rq, sort, 
+      match_id, stage_id, swap_team, 
+      mid, grade, rqspf, 
+      spf, update_status)
+    values (#{id,jdbcType=BIGINT}, #{available,jdbcType=BIT}, #{mname,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{gn,jdbcType=VARCHAR}, #{hn,jdbcType=VARCHAR}, #{itemId,jdbcType=BIGINT}, #{jcName,jdbcType=VARCHAR}, 
+      #{matchTime,jdbcType=TIMESTAMP}, #{rq,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+      #{matchId,jdbcType=BIGINT}, #{stageId,jdbcType=BIGINT}, #{swapTeam,jdbcType=BIT}, 
+      #{mid,jdbcType=INTEGER}, #{grade,jdbcType=VARCHAR}, #{rqspf,jdbcType=VARCHAR}, 
+      #{spf,jdbcType=VARCHAR}, #{updateStatus,jdbcType=INTEGER})
+  </insert>
+
+ 
+ 
+</mapper>

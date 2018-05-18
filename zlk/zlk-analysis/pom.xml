@@ -26,10 +26,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding> 
 		<java.version>1.8</java.version> </properties> -->
 	<properties>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>
-		<jdk.version>1.7</jdk.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+		<jdk.version>1.8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -156,9 +156,17 @@
 
 	</dependencies>
 
-	<!-- <build> <plugins> <plugin> <groupId>org.springframework.boot</groupId> 
-		<artifactId>spring-boot-maven-plugin</artifactId> <configuration> <fork>true</fork> 
-		</configuration> </plugin> </plugins> </build> -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<!-- <build> <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> 
 		<artifactId>maven-compiler-plugin</artifactId> <version>3.1</version> <configuration> 
 		<source>1.7</source> <target>1.7</target> <encoding>UTF-8</encoding> <compilerArguments> 
@@ -166,30 +174,13 @@
 		</configuration> </plugin> </plugins> </build> -->
 
 
-<build>
-   <plugins>
-	   <!-- 跳过测试用例 -->
-	   <plugin>
-		   <artifactId>maven-surefire-plugin</artifactId>
-		   <configuration>
-			   <skipTests>true</skipTests>
-		   </configuration>
-	   </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-        <!-- 解决 程序包sun.org.mozilla.javascript.internal不存在 错误 -->
-			<!-- <compilerArgument>-verbose -bootclasspath ${java.home}\lib\rt.jar</compilerArgument> -->
-			<compilerArguments>
-	            <verbose />
-	            <bootclasspath>${java.home}\lib\rt.jar</bootclasspath>
-			</compilerArguments>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	<!-- <build> <plugins> 跳过测试用例 <plugin> <artifactId>maven-surefire-plugin</artifactId> 
+		<configuration> <skipTests>true</skipTests> </configuration> </plugin> <plugin> 
+		<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+		<version>2.3.2</version> <configuration> 解决 程序包sun.org.mozilla.javascript.internal不存在 
+		错误 <compilerArgument>-verbose -bootclasspath ${java.home}\lib\rt.jar</compilerArgument> 
+		<compilerArguments> <verbose /> <bootclasspath>${java.home}\lib\rt.jar</bootclasspath> 
+		</compilerArguments> </configuration> </plugin> </plugins> </build> -->
 
 
 </project>

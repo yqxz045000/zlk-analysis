@@ -48,7 +48,7 @@ public class FinshMatchSpider extends BaseSpider  {
 	@Override
 	public void spiderData() throws Exception {
 		
-		Date beginDate = DateUtil.Long4StringToDate("20140714");
+		Date beginDate = DateUtil.getBeforDate(new Date(),15);
 		Date endDate = DateUtil.getBeforDate(new Date(),2);
 		DateTime dateTime = new DateTime(beginDate);
 		int matchSum = 0;

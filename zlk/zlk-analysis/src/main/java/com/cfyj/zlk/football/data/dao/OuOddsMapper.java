@@ -19,4 +19,6 @@ public interface OuOddsMapper {
 	int insert(@Param("qtid") long qtid,@Param("companyId")String companyId, @Param("oldOdds")String oldOdds,@Param("newOdds") String newOdds, @Param("allOdds")String allOdds, @Param("type")int type, 
 			@Param("createTime") Timestamp createTime ,@Param("updateTime")  Timestamp updateTime);
 
+	int updateById(Odds odds_db);
+
 }

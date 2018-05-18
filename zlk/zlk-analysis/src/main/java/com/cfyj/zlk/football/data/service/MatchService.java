@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cfyj.zlk.football.data.dao.MatchMapper;
+import com.cfyj.zlk.football.domain.OddsMatchVO;
 import com.cfyj.zlk.football.entity.Match;
 
 @Service
@@ -42,6 +43,11 @@ public class MatchService {
 	public List<Match> getByLimit(int begin, int end) {
 		return matchMapper.findByLimit(begin, end);
 		
+	}
+
+	public List<OddsMatchVO> getCurrentSaleMatch() {
+		// TODO Auto-generated method stub
+		return matchMapper.findCurrentSaleMatch();
 	}
 	
 	

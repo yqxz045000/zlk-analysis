@@ -14,7 +14,6 @@
 		insert into fb_ouyaodds2(qtid,companyId,oldOdds,newOdds,allOdds,type,createTime,updateTime) values (#{qtid},#{companyId},#{oldOdds},#{newOdds},#{allOdds},#{type},#{createTime},#{updateTime})  
 	</insert>
 	
-
 	<!-- mysql默认接受sql的大小是1048576(1M) -->
 <!-- 	<insert id="insertbatch" parameterType="java.util.List">
 		insert into
@@ -25,8 +24,11 @@
 			(#{item.qtid},#{item.companyId},#{item.oldOdds},#{item.newOdds},#{item.allOdds},#{item.type},#{item.createTime},#{item.updateTime})
 		</foreach>
 	</insert> -->
-
-
+	
+	
+	<update id="updateById" parameterType="com.cfyj.zlk.football.entity.Odds">
+		update fb_ouyaodds2 set newOdds = #{newOdds},allOdds = #{allOdds} where id = #{id}
+	</update>
 
 
 

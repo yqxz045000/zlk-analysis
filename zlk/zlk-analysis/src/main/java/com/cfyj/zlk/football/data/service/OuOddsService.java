@@ -18,9 +18,12 @@ public class OuOddsService {
 	public void saveOrUpdate(Odds odds) {
 		Odds odds_db = ouOddsMapper.findByQtidAndCompanyId(odds.getQtid(),odds.getCompanyId());
 		if(odds_db!=null) {
+			if(!odds_db.getAllOdds().equals(odds.getAllOdds())) {
+				odds.setId(odds_db.getId());
+				ouOddsMapper.updateById(odds);
+			}
 			
-		}else {
-		
+		}else {	
 			ouOddsMapper.insert(odds.getQtid(),odds.getCompanyId(),odds.getOldOdds(),odds.getNewOdds(),odds.getAllOdds(),odds.getType(),odds.getCreateTime(),odds.getUpdateTime());
 		}
 	}
