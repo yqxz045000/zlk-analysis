@@ -1,8 +1,8 @@
 package com.cfyj.zlk.football.data.dao;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -20,5 +20,9 @@ public interface OuOddsMapper {
 			@Param("createTime") Timestamp createTime ,@Param("updateTime")  Timestamp updateTime);
 
 	int updateById(Odds odds_db);
+	
+	//立博 82 ，威廉希尔 115，韦德 81，10BET 16，金宝博 499，bet365 281，betDAQ 54,澳门 80
+	@Select("select * from fb_ouyaodds2 where qtid = #{qtid} and companyId in (82,115,81,16,499,281,54,80)")
+	List<Odds> findAnalysisByQtidAndCompanyId(@Param("qtid") Long qtId);
 
 }

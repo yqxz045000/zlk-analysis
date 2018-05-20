@@ -29,4 +29,9 @@ public interface MatchMapper {
 	Long findQtidById(@Param("id")Long id);
 
 	List<OddsMatchVO> findCurrentSaleMatch();
+
+	List<Match> getAnalysisMatchByLimit(@Param("begin")int begin, @Param("end") int end);
+	
+	@Select("select count(id) from fb_matches where full_score is not null and home_team_id>0 and guest_team_id>0 and match_time is not null")
+	int countByAnalysisMatch();
 }

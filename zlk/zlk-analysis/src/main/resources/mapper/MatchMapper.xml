@@ -159,6 +159,10 @@
 	<select id="findByLimit" resultMap="BaseResultMap">
 		select qt_id,match_time from fb_matches  order by match_time asc limit #{begin} , #{end}
 	</select>
+	
+	<select id="getAnalysisMatchByLimit" resultMap="BaseResultMap">
+	select * from fb_matches where full_score is not null and home_team_id>0 and guest_team_id>0 and match_time is not null order by match_time asc limit #{begin} , #{end}
+	</select>
 
 </mapper>
 

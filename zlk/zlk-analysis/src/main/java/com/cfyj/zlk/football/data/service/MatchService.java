@@ -49,6 +49,16 @@ public class MatchService {
 		// TODO Auto-generated method stub
 		return matchMapper.findCurrentSaleMatch();
 	}
+
+	public List<Match> getAnalysisMatchByLimit(int begin, int end) {
+		
+		return matchMapper.getAnalysisMatchByLimit(begin,  end);
+	}
+
+	public int countByAnalysisMatch() {
+
+		return matchMapper.countByAnalysisMatch();
+	}
 	
 	
 	

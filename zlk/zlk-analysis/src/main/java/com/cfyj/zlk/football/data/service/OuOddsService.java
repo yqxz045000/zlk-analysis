@@ -1,5 +1,7 @@
 package com.cfyj.zlk.football.data.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,10 @@ public class OuOddsService {
 		}else {	
 			ouOddsMapper.insert(odds.getQtid(),odds.getCompanyId(),odds.getOldOdds(),odds.getNewOdds(),odds.getAllOdds(),odds.getType(),odds.getCreateTime(),odds.getUpdateTime());
 		}
+	}
+
+	public List<Odds> getAnalysisByQtidAndCompanyId(Long qtId) {
+		return ouOddsMapper.findAnalysisByQtidAndCompanyId(qtId);
 	}
 
 }

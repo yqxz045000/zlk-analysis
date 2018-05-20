@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cfyj.zlk.football.data.dao.MatchOddsResultMapper" >
+	
+
+	
+<!-- 	<insert id="batchInsert" parameterType="java.util.List">  
+       <foreach collection="results" item="emp" separator=";">  
+         insert into al_matchoddsresult(last_name,email,gender,d_id)  
+       values(#{emp.lastName},#{emp.email},#{emp.gender},#{emp.dept.id})  
+       </foreach>  
+    </insert>   -->
+    
+	<sql id="allColumn">
+	id,qtid,companyId,oddsUpdateNum,fhl,nwinOdds,ndrawOdds,nfailOdds,owinOdds,odrawOdds,ofailOdds,nwinOddsRate,ndrawOddsRate,nfailOddsRate,owinOddsRate,odrawOddsRate,ofailOddsRate,
+	allOdds,type,matchType,fullScore,halfScore,matchResult,hn,gn,hid,gid,leagueId,matchTime,hr,gr
+	</sql>
+	
+     <insert id="batchInsert" parameterType="java.util.List">  
+       insert into al_matchoddsresult(id,qtid,companyId,oddsUpdateNum,fhl,nwinOdds,ndrawOdds,nfailOdds,owinOdds,odrawOdds,ofailOdds,nwinOddsRate,ndrawOddsRate,nfailOddsRate,owinOddsRate,odrawOddsRate,ofailOddsRate,allOdds,type,matchType,fullScore,halfScore,matchResult,hn,gn,hid,gid,leagueId,matchTime,hr,gr)  
+       values   
+       <foreach collection="results" item="emp" separator=",">  
+         (#{emp.id},#{emp.qtid},#{emp.companyId},#{emp.oddsUpdateNum},#{emp.fhl},#{emp.nwinOdds},#{emp.ndrawOdds},#{emp.nfailOdds},#{emp.owinOdds},#{emp.odrawOdds},#{emp.ofailOdds},#{emp.nwinOddsRate},#{emp.ndrawOddsRate},#{emp.nfailOddsRate},#{emp.owinOddsRate},#{emp.odrawOddsRate},#{emp.ofailOddsRate},#{emp.allOdds},#{emp.type},#{emp.matchType},#{emp.fullScore},#{emp.halfScore},#{emp.matchResult},#{emp.hn},#{emp.gn},#{emp.hid},#{emp.gid},#{emp.leagueId},#{emp.matchTime},#{emp.hr},#{emp.gr})  
+       </foreach>    
+    </insert> 
+	
+</mapper>

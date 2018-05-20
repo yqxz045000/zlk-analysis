@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 
 public class Odds {
-	 //281-韦德  82-立博  115-威廉希尔
+	//立博 82 ，威廉希尔 115，韦德 81，10BET 16，金宝博 499，bet365 281，betDAQ 54,澳门 80
 	private Long id;
 
 	private Long qtid;
