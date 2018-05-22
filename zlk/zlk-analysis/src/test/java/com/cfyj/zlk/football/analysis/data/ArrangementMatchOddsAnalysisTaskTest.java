@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.cfyj.zlk.football.analysis.ArrangementMatchOddsAnalysisTask;
+import com.cfyj.zlk.football.analysis.task.ArrangementMatchOddsAnalysisTask;
 
 import lombok.extern.slf4j.Slf4j;
 

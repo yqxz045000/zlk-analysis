@@ -1,7 +1,6 @@
-package com.cfyj.zlk.football.analysis;
+package com.cfyj.zlk.football.analysis.task;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -136,7 +135,7 @@ public class ArrangementMatchOddsAnalysisTask {
 
 			mor.setMatchResult(matchResult[flag]);
 			mor.setOddsUpdateNum(odds.getAllOdds().split(";").length);
-
+			mor.setMatchResultRate(oddsrate[flag]);
 			mor.setNwinOddsRate(oddsrate[0]);	
 			mor.setNdrawOddsRate(oddsrate[1]);
 			mor.setNfailOddsRate(oddsrate[2]);

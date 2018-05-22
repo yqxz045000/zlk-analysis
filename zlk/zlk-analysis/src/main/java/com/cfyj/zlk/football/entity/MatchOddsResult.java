@@ -49,6 +49,8 @@ public class MatchOddsResult {
 	
 	private Integer matchResult ;//  0 未完成  ，1主胜， 2平， 3 客胜
 	
+	private Double matchResultRate ; //结果对应的概率
+	
 	private String hn ;
 	
 	private String gn ; 
