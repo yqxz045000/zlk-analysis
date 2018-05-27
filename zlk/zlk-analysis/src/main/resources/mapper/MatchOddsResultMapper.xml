@@ -23,5 +23,24 @@
          (#{emp.id},#{emp.qtid},#{emp.companyId},#{emp.oddsUpdateNum},#{emp.fhl},#{emp.nwinOdds},#{emp.ndrawOdds},#{emp.nfailOdds},#{emp.owinOdds},#{emp.odrawOdds},#{emp.ofailOdds},#{emp.nwinOddsRate},#{emp.ndrawOddsRate},#{emp.nfailOddsRate},#{emp.owinOddsRate},#{emp.odrawOddsRate},#{emp.ofailOddsRate},#{emp.allOdds},#{emp.type},#{emp.matchType},#{emp.fullScore},#{emp.halfScore},#{emp.matchResult},#{emp.hn},#{emp.gn},#{emp.hid},#{emp.gid},#{emp.leagueId},#{emp.matchTime},#{emp.hr},#{emp.gr},#{emp.matchResultRate})  
        </foreach>    
     </insert> 
+    
+    
+        <insert id="insert" parameterType="com.cfyj.zlk.football.entity.MatchOddsResult">  
+       insert into al_matchoddsresult(id,qtid,companyId,oddsUpdateNum,fhl,nwinOdds,ndrawOdds,nfailOdds,owinOdds,odrawOdds,ofailOdds,nwinOddsRate,ndrawOddsRate,nfailOddsRate,owinOddsRate,odrawOddsRate,ofailOddsRate,allOdds,type,matchType,fullScore,halfScore,matchResult,hn,gn,hid,gid,leagueId,matchTime,hr,gr,matchResultRate)  
+       values   
+         (#{id},#{qtid},#{companyId},#{oddsUpdateNum},#{fhl},#{nwinOdds},#{ndrawOdds},#{nfailOdds},#{owinOdds},#{odrawOdds},#{ofailOdds},#{nwinOddsRate},#{ndrawOddsRate},#{nfailOddsRate},#{owinOddsRate},#{odrawOddsRate},#{ofailOddsRate},#{allOdds},#{type},#{matchType},#{fullScore},#{halfScore},#{matchResult},#{hn},#{gn},#{hid},#{gid},#{leagueId},#{matchTime},#{hr},#{gr},#{matchResultRate})    
+    </insert> 
+    
+    <update id="update"  parameterType="com.cfyj.zlk.football.entity.MatchOddsResult">
+    	update al_matchoddsresult set  	
+    	oddsUpdateNum = #{oddsUpdateNum},fhl= #{fhl},nwinOdds= #{nwinOdds},ndrawOdds= #{ndrawOdds},nfailOdds= #{nfailOdds},owinOdds= #{owinOdds},odrawOdds= #{odrawOdds}
+    	,ofailOdds= #{ofailOdds},nwinOddsRate= #{nwinOddsRate},ndrawOddsRate= #{ndrawOddsRate},nfailOddsRate= #{nfailOddsRate}
+    	,owinOddsRate= #{owinOddsRate},odrawOddsRate= #{odrawOddsRate},ofailOddsRate= #{ofailOddsRate},allOdds= #{allOdds},matchType= #{matchType},fullScore= #{fullScore},halfScore= #{halfScore}
+    	,matchResult= #{matchResult}
+    	,hn= #{hn},gn= #{gn},hid= #{hid},gid= #{gid},leagueId= #{leagueId},matchTime= #{matchTime},hr= #{hr},gr= #{gr},matchResultRate= #{matchResultRate}
+    	where qtid = #{qtid} and  companyId = #{companyId}
+    	
+    </update>
+	
 	
 </mapper>

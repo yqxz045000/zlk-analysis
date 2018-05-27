@@ -1,5 +1,6 @@
 package com.cfyj.zlk.football.data.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -59,7 +60,20 @@ public class MatchService {
 
 		return matchMapper.countByAnalysisMatch();
 	}
+
+	public List<OddsMatchVO> getMatchByTime(String beginTime, String endTime) {
+		return matchMapper.findMatchByTime( beginTime,  endTime) ; 
+	}
+
+	public List<Match> getAnalysisMatchByTime(Date beginTime, Date ednTime) {
+		// TODO Auto-generated method stub
+		return matchMapper.findAnalysisMatchByTime(beginTime, ednTime);
+	}
 	
+	public List<Match> getCurrentSaleMatch2() {
+		// TODO Auto-generated method stub
+		return matchMapper.getCurrentSaleMatch2();
+	}
 	
 	
 }

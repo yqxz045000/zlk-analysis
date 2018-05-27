@@ -41,17 +41,19 @@
 		from fb_stage s left join fb_stage_matches sm on  sm.stage_id= s.id and sm.match_id is not NULL
 		 left JOIN fb_matches m on m.id = sm.match_id where s.is_current =1  and s.type =4
 	</select>
-
-
-
+	
+		<select id="findMatchByTime" resultType="com.cfyj.zlk.football.domain.OddsMatchVO">
+		select sm.match_id as matchId,m.qt_id as qtid,sm.id as stageMatchId,s.`name` as stageName,m.home_team_name as hn
+		,m.guest_team_name as gn,m.match_time as matchTime,m.match_type as matchType  
+		from fb_stage s left join fb_stage_matches sm on  sm.stage_id= s.id and sm.match_id is not NULL
+		 left JOIN fb_matches m on m.id = sm.match_id where  s.type =4 and s.name between #{beginTime} and #{endTime}
+	</select>
+	
 	<select id="findById" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from fb_matches where id = #{id}
 	</select>
-
-
-
 
 	<select id="findByQtid" resultMap="BaseResultMap" parameterType="java.lang.Long">
 		select

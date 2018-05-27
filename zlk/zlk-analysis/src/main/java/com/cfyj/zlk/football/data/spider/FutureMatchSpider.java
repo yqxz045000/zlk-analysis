@@ -52,7 +52,7 @@ public class FutureMatchSpider extends BaseSpider {
 	@Override
 	public void spiderData() throws Exception {
 		
-		for (int i = 1; i < 15; i++) {
+		for (int i = -1; i < 15; i++) {
 			Thread.currentThread().sleep(5000);  
 			DateTime date =  new DateTime().plus(i);
 			String timeStr = DateUtil.dateToLong4SdfDate(date.toDate());

@@ -71,8 +71,7 @@ public class URLConstant {
 //	
 //	public static String FOOTBALL_TEAMLOGO_URL = "http://zlk.weicaiwan.com/img/football/team/";
 	
-	
-	public final static String JC_OFFICIAL_URL = "http://www.9188.com/data/jincai/jc_hh_zlkgames.xml";//竞彩官方比赛
+	public final static String JC_OFFICIAL_URL = "https://www.9188.com/data/jincai/jc_hh_zlkgames.xml";//竞彩官方比赛
 	
 	public final static String QT_FUTUREMATCH_URL = "http://bf.win007.com/football/Next_"; //未来赛程 http://bf.win007.com/football/Next_20180429.htm
 	

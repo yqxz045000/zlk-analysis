@@ -36,7 +36,7 @@ public class MatchTask {
 	}
 	
 //	@Scheduled(cron= "0 0 0,6,11,17,19,22 * * ? ")
-	@Scheduled(fixedDelay = 1800000)
+	@Scheduled(fixedDelay = 3600000)
 	public void jcOfficialMatchSpider() throws Exception {
 		log.info("爬取竞彩官方比赛---start");
 		jcOfficialMatchSpider.spiderData();

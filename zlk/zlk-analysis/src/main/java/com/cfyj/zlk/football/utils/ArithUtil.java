@@ -6,6 +6,8 @@ public class ArithUtil {
 	// 默认除法运算精度
 	public static final int DEF_DIV_SCALE = 4;
 	
+	public static final int DEF_SCALE_6 = 6;
+	
 	public static final int DIV_SCALE_3 = 3;
 	
 	public static final int DIV_SCALE_2 = 2;

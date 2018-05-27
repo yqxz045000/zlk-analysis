@@ -35,5 +35,10 @@ public class ArithOddsUtil {
 		double afgRate= ArithUtil.div(1, 1+ArithUtil.div(odds1, odds2)+ArithUtil.div(odds1, odds3),ArithUtil.DIV_SCALE_2,BigDecimal.ROUND_HALF_DOWN); 	
 		return afgRate+"";
 	}
+	
+	public static String arithWinRate2(String odds1,String odds2,String odds3) {
+		double afgRate= ArithUtil.div(1, 1+ArithUtil.div(odds1, odds2)+ArithUtil.div(odds1, odds3),ArithUtil.DEF_SCALE_6,BigDecimal.ROUND_HALF_DOWN); 	
+		return afgRate+"";
+	}
 
 }

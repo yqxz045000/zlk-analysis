@@ -2,6 +2,7 @@ package com.cfyj.zlk.football.data.spider;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +20,7 @@ import com.cfyj.zlk.football.data.service.StageMatchService;
 import com.cfyj.zlk.football.domain.OddsHundred;
 import com.cfyj.zlk.football.domain.OddsMatchVO;
 import com.cfyj.zlk.football.entity.Odds;
+import com.cfyj.zlk.football.utils.DateUtil;
 import com.cfyj.zlk.football.utils.OddsUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +49,11 @@ public class OuOddsSpider extends BaseSpider {
 
 	@Override
 	public void spiderData() throws Exception {
-
+		
+		//TODO 打开这里
 		List<OddsMatchVO> saleList = matchService.getCurrentSaleMatch();
+		
+//		List<OddsMatchVO> saleList = matchService.getMatchByTime("171212","180530");
 
 		if (saleList == null || saleList.size() == 0) {
 			log.info("无正在开售的比赛，不爬取欧赔----");
