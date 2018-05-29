@@ -54,7 +54,7 @@ public class FutureMatchSpider extends BaseSpider {
 		
 		for (int i = -1; i < 15; i++) {
 			Thread.currentThread().sleep(5000);  
-			DateTime date =  new DateTime().plus(i);
+			DateTime date =  new DateTime().plusDays(i);
 			String timeStr = DateUtil.dateToLong4SdfDate(date.toDate());
 			
 			log.info("抓取未来比赛======" + timeStr);
