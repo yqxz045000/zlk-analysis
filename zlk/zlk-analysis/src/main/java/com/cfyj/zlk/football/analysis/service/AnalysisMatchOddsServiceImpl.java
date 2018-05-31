@@ -1,7 +1,6 @@
 package com.cfyj.zlk.football.analysis.service;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cfyj.zlk.football.constant.FilepathConfig;
 import com.cfyj.zlk.football.data.dao.MatchOddsResultMapper;
 import com.cfyj.zlk.football.domain.MatchOddsResultExportDomain;
 import com.cfyj.zlk.football.entity.MatchOddsResult;
@@ -30,7 +30,7 @@ public class AnalysisMatchOddsServiceImpl implements AnalysisServivce {
 	@Autowired
 	private MatchOddsResultMapper matchOddsResultMapper;
 	
-	private static final String SAVEPATH = "E:\\matchAnalysis\\";
+//	private static final String SAVEPATH = "E:\\matchAnalysis\\";
 
 	@Override
 	public void arrangementAnalysisOddsResult() {
@@ -38,9 +38,12 @@ public class AnalysisMatchOddsServiceImpl implements AnalysisServivce {
 	}
 
 	@Override
-	public void exportMatchResult(long qtid) throws  Exception {
+	public void exportMatchResult(long qtid,String path) throws  Exception {
 		List<MatchOddsResult> list = matchOddsResultMapper.findByQtid(qtid);
-
+		if(StringUtils.isBlank(path)) {
+			path = FilepathConfig.EXPORT_HISTORY_MATCHODDSRESULT_FILEPATH;
+			
+		}
 //		String[] colNames = { "1", "2", "3", "4", "5" };
 		String[] colNames = { "1", "2", "3","5" };
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
@@ -77,15 +80,15 @@ public class AnalysisMatchOddsServiceImpl implements AnalysisServivce {
 
 				if (datas != null && datas.size() > 0) {
 					Collections.reverse(datas);
-					String path = SAVEPATH + "\\" + mdr.getQtid() + "_" + mdr.getHn() + "vs" + mdr.getGn() + "_"
+					String savepath = path + "\\" + mdr.getQtid() + "_" + mdr.getHn() + "vs" + mdr.getGn() + "_"
 							+ DateUtil.dateToLong4SdfDate(mdr.getMatchTime()) + "\\";
-					File dir = new File(path);
+					File dir = new File(savepath);
 					if (!dir.exists()) {
 						dir.mkdirs();
 					}
 					String fileName = "filename";
 					ExcelUtil.downloadExcel(fileName, colNames, map, "无", datas,
-							new FileOutputStream(path + mdr.getCompanyId() + ".xls"));
+							new FileOutputStream(savepath + mdr.getCompanyId() + ".xls"));
 
 					// exportUtil.exportExcel("sheet", "", datas, headers, includeFieldNames, null,
 					// new FileOutputStream(path+mdr.getCompanyId()+".xls"), null);

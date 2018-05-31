@@ -19,7 +19,7 @@ public class AnalysisViewController {
 	@PostMapping("/exportAnalysisView.do")
 	public void getAnalysisView(long qtid) throws Exception {
 			
-		 analysisServivce.exportMatchResult(qtid);;
+		 analysisServivce.exportMatchResult(qtid,null);;
 	}
 	
 	

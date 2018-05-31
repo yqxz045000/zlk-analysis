@@ -8,6 +8,6 @@ public interface AnalysisServivce {
 	void arrangementAnalysisOddsResult();
 	
 	
-	void exportMatchResult(long qtid) throws  Exception ;
+	void exportMatchResult(long qtid,String path) throws  Exception ;
 
 }
