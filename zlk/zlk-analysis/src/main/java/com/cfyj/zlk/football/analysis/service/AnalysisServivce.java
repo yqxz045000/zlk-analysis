@@ -10,4 +10,7 @@ public interface AnalysisServivce {
 	
 	void exportMatchResult(long qtid,String path) throws  Exception ;
 
+
+	void exportMatchResultToJson(Long qtId, String path)throws Exception;
+
 }
