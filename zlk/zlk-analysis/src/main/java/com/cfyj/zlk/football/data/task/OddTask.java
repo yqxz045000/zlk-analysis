@@ -30,7 +30,7 @@ public class OddTask {
 	@Autowired
 	OuOddsSpider ouOddsSpider;
 	
-	@Scheduled(fixedDelay=1800000,initialDelay=400000)
+	@Scheduled(fixedDelay=30000,initialDelay=0)
 	public void finshMatchSpider() throws Exception {
 		Date begin = new Date();
 		log.info("爬取赔率开始---start");

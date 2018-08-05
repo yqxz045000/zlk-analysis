@@ -20,7 +20,6 @@ public class MatchService {
 	@Autowired
 	private MatchMapper matchMapper;
 
-
 	public Match getMatchByQtId(Long qtId) {
 		return matchMapper.findByQtid(qtId);
 	}
@@ -28,7 +27,7 @@ public class MatchService {
 	public void save(Match match) {
 		matchMapper.insert(match);
 	}
-	
+
 	public void update(Match match) {
 		matchMapper.update(match);
 	}
@@ -43,7 +42,7 @@ public class MatchService {
 
 	public List<Match> getByLimit(int begin, int end) {
 		return matchMapper.findByLimit(begin, end);
-		
+
 	}
 
 	public List<OddsMatchVO> getCurrentSaleMatch() {
@@ -52,8 +51,8 @@ public class MatchService {
 	}
 
 	public List<Match> getAnalysisMatchByLimit(int begin, int end) {
-		
-		return matchMapper.getAnalysisMatchByLimit(begin,  end);
+
+		return matchMapper.getAnalysisMatchByLimit(begin, end);
 	}
 
 	public int countByAnalysisMatch() {
@@ -62,18 +61,22 @@ public class MatchService {
 	}
 
 	public List<OddsMatchVO> getMatchByTime(String beginTime, String endTime) {
-		return matchMapper.findMatchByTime( beginTime,  endTime) ; 
+		return matchMapper.findMatchByTime(beginTime, endTime);
 	}
 
 	public List<Match> getAnalysisMatchByTime(Date beginTime, Date ednTime) {
-		// TODO Auto-generated method stub
+
 		return matchMapper.findAnalysisMatchByTime(beginTime, ednTime);
 	}
-	
+
 	public List<Match> getCurrentSaleMatch2() {
-		// TODO Auto-generated method stub
+
 		return matchMapper.getCurrentSaleMatch2();
 	}
-	
-	
+
+	public List<Match> getMatchX() {
+
+		return matchMapper.finMatchX();
+	}
+
 }

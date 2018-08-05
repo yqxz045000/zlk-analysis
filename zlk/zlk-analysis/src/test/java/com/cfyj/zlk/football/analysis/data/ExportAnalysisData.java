@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.cfyj.zlk.football.analysis.task.ExportMatchOddsResultTask;
 import com.cfyj.zlk.football.data.dao.MatchOddsResultMapper;
 import com.cfyj.zlk.football.domain.MatchOddsResultExportDomain;
 import com.cfyj.zlk.football.entity.MatchOddsResult;
@@ -35,6 +36,14 @@ public class ExportAnalysisData {
 	
 	private static final String SAVEPATH = "E:\\matchAnalysis\\";
 
+	
+	@Autowired
+	ExportMatchOddsResultTask exportMatchOddsResultTask;
+	
+	@Test
+	public void export2() {
+		exportMatchOddsResultTask.task();
+	}
 	
 	@Test
 	public void export() throws FileNotFoundException, Exception {

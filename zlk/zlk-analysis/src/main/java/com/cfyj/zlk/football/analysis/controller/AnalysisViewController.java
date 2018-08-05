@@ -1,5 +1,7 @@
 package com.cfyj.zlk.football.analysis.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,13 @@ public class AnalysisViewController {
 		 analysisServivce.exportMatchResult(qtid,null);;
 	}
 	
+	
+	
+	@PostMapping("/getLineCart.do")
+	public  Map<String,Object> getLineCart(long qtid,String companyId) throws Exception {
+			
+		 return analysisServivce.getLineCart(qtid,companyId);
+	}
 	
 	
 }

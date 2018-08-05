@@ -1,5 +1,7 @@
 package com.cfyj.zlk.football.analysis.service;
 
+import java.util.Map;
+
 public interface AnalysisServivce {
 	
 	/**
@@ -9,5 +11,8 @@ public interface AnalysisServivce {
 	
 	
 	void exportMatchResult(long qtid,String path) throws  Exception ;
+
+
+	Map<String, Object> getLineCart(long qtid,String companyId);
 
 }

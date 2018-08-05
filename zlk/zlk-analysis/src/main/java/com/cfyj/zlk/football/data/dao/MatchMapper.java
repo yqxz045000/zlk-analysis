@@ -46,4 +46,8 @@ public interface MatchMapper {
 	@Select("select m.* from fb_matches m where m.id in (select sm.match_id from fb_stage s LEFT JOIN fb_stage_matches sm on sm.stage_id = s.id  and sm.match_id is not NULL  where s.is_current=1 and s.type =4  ); ")
 	@ResultMap("BaseResultMap")
 	List<Match> getCurrentSaleMatch2();
+	
+	@Select("select m.* from fb_matches m where m.id in (select sm.match_id from fb_stage_matches sm where sm.match_time < '2018-06-03 00:00:00' and sm.match_id is not null  order by sm.match_time desc  ) order by m.match_time desc  limit 5000")
+	@ResultMap("BaseResultMap")
+	List<Match> finMatchX();
 }

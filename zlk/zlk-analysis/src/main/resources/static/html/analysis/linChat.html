@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/html/js/echarts.common.min.js"></script>
+</head>
+<body>
+
+	<div id='line' style="height: 400px; top: 10px"></div>
+	<div id='line2' style="height: 400px; top: 10px"></div>
+	<script type="text/javascript">
+		var myLine = echarts.init(document.getElementById('line'));
+		var lineOption = {
+			title : {
+				text : '10bet动态变化',//标题  
+				subtext : ''//副标题  
+			},
+			tooltip : {
+				trigger : 'axis' //item 点在哪条线上显示哪条线上的数据，axis点在哪个坐标点上显示对于点上所有数据  
+			},
+			legend : {
+				data : []
+			},
+			toolbox : {
+				show : true,
+				orient : 'vertical',
+				x : 'right',
+				y : 'center',
+				feature : {
+					mark : {
+						show : true
+					},
+					dataView : {
+						show : true,
+						readOnly : false
+					},
+					magicType : {
+						show : true,
+						type : [ 'line', 'bar' ]
+					},
+					restore : {
+						show : true
+					},
+					saveAsImage : {
+						show : true,
+						name : '折线图'//保存的图片名次  
+					}
+				}
+			},
+			calculable : true,
+			xAxis : [ {
+				type : 'category',
+				boundaryGap : [ 0, 0.01 ],
+				name : '时间',
+				data : [ '' ],
+				axisLabel : {
+					interval : 0,//横轴信息全部显示    
+					rotate : -30,//-30度角倾斜显示    
+				}
+			} ],
+			yAxis : [ {
+				type : 'value',
+				axisLabel : {
+					formatter : '{value} '
+				}
+			} ],
+			grid : {
+				x : 30,//设置该图形与对应div的左边距  
+				y : 30,//设置该图形与对应div的上边距  
+				x2 : 50,//设置该图形与对应div的右边距  
+				y2 : 50
+			//设置该图形与对应div的下边距  
+			},
+			series : []
+		};
+
+		myLine.setOption(lineOption);
+		var ajaxLine = function() {
+			$
+					.ajax({
+						url : '/analysis/getLineCart.do?qtid=1394677&companyId=16',
+						type : "post",
+						success : function(responseText) {
+							//请求成功时处理  
+							lineOption.legend.data = responseText.legend;
+							lineOption.xAxis[0].data = responseText.xAxis;//x轴  
+							var serieslist = responseText.series;
+							for (var i = 0; i < serieslist.length; i++) {//循环放入数据  
+								lineOption.series[i] = serieslist[i];
+							}
+							myLine.setOption(lineOption, true);
+						},
+						complete : function() {
+							//请求完成的处理  
+						},
+						error : function() {
+							//请求出错处理  
+							alert("加载失败");
+						}
+					})
+		}
+		ajaxLine();
+	</script>
+	
+		<script type="text/javascript">
+		var myLine = echarts.init(document.getElementById('line2'));
+		var lineOption = {
+			title : {
+				text : '立博动态变化',//标题  
+				subtext : ''//副标题  
+			},
+			tooltip : {
+				trigger : 'axis' //item 点在哪条线上显示哪条线上的数据，axis点在哪个坐标点上显示对于点上所有数据  
+			},
+			legend : {
+				data : []
+			},
+			toolbox : {
+				show : true,
+				orient : 'vertical',
+				x : 'right',
+				y : 'center',
+				feature : {
+					mark : {
+						show : true
+					},
+					dataView : {
+						show : true,
+						readOnly : false
+					},
+					magicType : {
+						show : true,
+						type : [ 'line', 'bar' ]
+					},
+					restore : {
+						show : true
+					},
+					saveAsImage : {
+						show : true,
+						name : '折线图'//保存的图片名次  
+					}
+				}
+			},
+			calculable : true,
+			xAxis : [ {
+				type : 'category',
+				boundaryGap :  [ 0, 0.01 ],
+				name : '时间',
+				data : [ '' ],
+				axisLabel : {
+					interval : 0,//横轴信息全部显示    
+					rotate : -30,//-30度角倾斜显示    
+				}
+			} ],
+			yAxis : [ {
+				type : 'value',
+				axisLabel : {
+					formatter : '{value} '
+				}
+			} ],
+			grid : {
+				x : 30,//设置该图形与对应div的左边距  
+				y : 30,//设置该图形与对应div的上边距  
+				x2 : 50,//设置该图形与对应div的右边距  
+				y2 : 50
+			//设置该图形与对应div的下边距  
+			},
+			series : []
+		};
+
+		myLine.setOption(lineOption);
+		var ajaxLine = function() {
+			$
+					.ajax({
+						url : '/analysis/getLineCart.do?qtid=1394677&companyId=81',
+						type : "post",
+						success : function(responseText) {
+							//请求成功时处理  
+							lineOption.legend.data = responseText.legend;
+							lineOption.xAxis[0].data = responseText.xAxis;//x轴  
+							var serieslist = responseText.series;
+							for (var i = 0; i < serieslist.length; i++) {//循环放入数据  
+								lineOption.series[i] = serieslist[i];
+							}
+							myLine.setOption(lineOption, true);
+						},
+						complete : function() {
+							//请求完成的处理  
+						},
+						error : function() {
+							//请求出错处理  
+							alert("加载失败");
+						}
+					})
+		}
+		ajaxLine();
+	</script>
+</body>
+</html>

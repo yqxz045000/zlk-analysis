@@ -23,4 +23,7 @@ public interface MatchOddsResultMapper {
 
 	void update(MatchOddsResult mor);
 
+	@Select("select * from al_matchoddsresult t where t.qtid = #{qtid} and companyId = #{companyId} ")
+	MatchOddsResult findByQtidAndCompanyId(@Param("qtid") long qtid, @Param("companyId") String companyId);
+
 }
