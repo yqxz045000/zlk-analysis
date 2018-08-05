@@ -45,7 +45,8 @@ public class ArrangementMatchOddsAnalysisTask {
 	private boolean flag = true;
 	
 	//立博 82 ，威廉希尔 115，韦德 81，10BET 16，金宝博 499，bet365 281，betDAQ 54,澳门 80
-	@Scheduled(fixedDelay=60000)
+
+	@Scheduled(fixedDelay=6000)
 	public void arrangementMatchOddsAnalysisTask() throws Exception {
 //		if(!flag) {
 //			return ;

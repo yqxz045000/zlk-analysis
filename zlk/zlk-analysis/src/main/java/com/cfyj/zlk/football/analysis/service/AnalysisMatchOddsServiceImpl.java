@@ -1,7 +1,9 @@
 package com.cfyj.zlk.football.analysis.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,6 +17,8 @@ import org.apache.poi.hssf.record.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.cfyj.zlk.football.constant.FilepathConfig;
 import com.cfyj.zlk.football.data.dao.MatchOddsResultMapper;
 import com.cfyj.zlk.football.domain.MatchOddsResultExportDomain;
@@ -154,5 +158,65 @@ public class AnalysisMatchOddsServiceImpl implements AnalysisServivce {
 	
 	 
 	
+
+	public void exportMatchResultToJson(Long qtId, String path) throws Exception {
+		List<MatchOddsResult> list = matchOddsResultMapper.findByQtid(qtId);
+		if(StringUtils.isBlank(path)) {
+			path = FilepathConfig.EXPORT_HISTORY_MATCHODDSRESULT_FILEPATH;
+			
+		}
+//		String[] colNames = { "1", "2", "3", "4", "5" };
+		String[] colNames = { "1", "2", "3","5" };
+		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+		map.put("1", "winOddsRate");
+		map.put("2", "drawOddsRate");
+		map.put("3", "failOddsRate");
+//		map.put("4", "fhl");
+		map.put("5", "updateTime");
+
+		List<MatchOddsResultExportDomain> datas = null;
+		if (list != null) {
+			for (ListIterator<MatchOddsResult> it = list.listIterator(); it.hasNext();) {
+				MatchOddsResult mdr = it.next();
+				
+				String[] oddsAllA = mdr.getAllOdds().split(";");
+				datas = new ArrayList<>();
+				for (int i = 0; i < oddsAllA.length; i++) {
+					if (StringUtils.isNotBlank(oddsAllA[i])) {
+						MatchOddsResultExportDomain me = new MatchOddsResultExportDomain();
+						String oddsStr[] = oddsAllA[i].split(",");
+						Double[] rateA = getOddsRate(oddsStr);
+						if (rateA.length < 3) {
+							continue;
+						}
+						me.setWinOddsRate(rateA[0]);
+						me.setDrawOddsRate(rateA[1]);
+						me.setFailOddsRate(rateA[2]);
+						me.setFhl(oddsStr[3]);
+						me.setUpdateTime(oddsStr[4]);
+
+						datas.add(me);
+					}
+				}
+
+				if (datas != null && datas.size() > 0) {
+					Collections.reverse(datas);
+					String savepath = path + "\\" + mdr.getQtid() + "_" + mdr.getHn() + "vs" + mdr.getGn() + "_"
+							+ DateUtil.dateToLong4SdfDate(mdr.getMatchTime()) + "\\";
+					File dir = new File(savepath);
+					if (!dir.exists()) {
+						dir.mkdirs();
+					}
+					String fileName =  mdr.getCompanyId() + ".json";
+			
+					JSON.writeJSONString(new FileOutputStream(savepath+fileName), datas, SerializerFeature.UseSingleQuotes,SerializerFeature.QuoteFieldNames);
+				}
+
+			}
+
+		}
+
+		
+	}
 
 }

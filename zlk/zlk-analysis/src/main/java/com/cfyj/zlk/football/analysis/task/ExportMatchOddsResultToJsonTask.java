@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
-public class ExportMatchOddsResultTask {
+public class ExportMatchOddsResultToJsonTask {
 
 	@Autowired
 	private AnalysisServivce analysisServivce;
@@ -30,26 +30,13 @@ public class ExportMatchOddsResultTask {
 	
 	
 	
-
-	@Scheduled(fixedDelay=10000)
+	@Scheduled(fixedDelay=600000,initialDelay=200000)
 	public void task() {
-//		List<Match> list = matchService.getCurrentSaleMatch2();
-//		if(list!=null && list.size()>0) {
-//			for(Match match: list) {			
-//				try {
-//					analysisServivce.exportMatchResult(match.getQtId(),FilepathConfig.EXPORT_CURRENTSALE_MATCHODDSRESULT_FILEPATH);
-//				} catch (Exception e) {
-//					log.error("导出当前期赔率数据失败",e);
-//				}
-//							
-//			}
-//		}
-		
-		List<Match> list = matchService.getMatchX();
+		List<Match> list = matchService.getCurrentSaleMatch2();
 		if(list!=null && list.size()>0) {
 			for(Match match: list) {			
 				try {
-					analysisServivce.exportMatchResult(match.getQtId(),FilepathConfig.EXPORT_ANALYSIS_MATCHODDSRESULT_FILEPATH);
+					analysisServivce.exportMatchResultToJson(match.getQtId(),FilepathConfig.EXPORT_CURRENTSALE_MATCHODDSRESULT_TOJSON_FILEPATH);
 				} catch (Exception e) {
 					log.error("导出当前期赔率数据失败",e);
 				}
@@ -59,6 +46,10 @@ public class ExportMatchOddsResultTask {
 		
 	}
 	
-
+	
+	
+	
+	
+	
 	
 }

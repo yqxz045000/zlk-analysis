@@ -15,4 +15,7 @@ public interface AnalysisServivce {
 
 	Map<String, Object> getLineCart(long qtid,String companyId);
 
+	void exportMatchResultToJson(Long qtId, String path)throws Exception;
+
+
 }
